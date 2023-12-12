@@ -1,0 +1,173 @@
+body {
+    min-height: 5000px;
+}
+* {
+    box-sizing: border-box;
+}
+.percentage-tag {
+    width: 50%;
+    height: 15%;
+    padding: 15%;
+    background-color: red;
+}
+/*
+Nem látszik, mert a százalékot nem tudjuk beállítani a body-hoz képest, tehát ha ez a div a bodyban van,
+akkor nem tudja ahhoz képest beállítani a százalékot és a százalék az azt jelenti, hogy a szűlőelemhez képest 
+hány százaléka legyen a szélesség és a magasság.
+Szélességet még be tudnánk állítani a body-hoz képest, de a magasságot már nem.
+Ha viszotnt adunk neki egy paddinget, akkor meg fog jelenni, mert a padding miatt lesz magassága és
+a felét fogja felvenni a body szélességének.
+
+A százaléknak magasság esetében csak úgy van értelme van egy parent element-je is. 
+*/
+.parent-element {
+    width: 1000px;
+    height: 500px;
+    border: 1px solid black;
+}
+/*
+Ha a parent element 1000px magas, akkor a percentage-tag-nek 500px szélesnek kell lennie.
+A magassága meg 75px (15%-a szülőelemnek).
+*/
+.vh-vw-square {
+    width: 30vw;
+    height: 40vh;
+    background-color: blue;
+}
+/*
+30vw -> a látható szélességnek a 30%-a 
+40vh -> a látható magasságnak a 40%-a 
+A látható magasság a böngészőablaknak a magassága, amit látunk, szélesség meg a szélességnek.
+És, így már meg tudjuk határozni a magasságot is, a sima százaléknál nem.
+A body-nak a látható szélességéből és magasságából viszont igen.
+100vh -> a képernyő(body) magasságának a 100%-át veszi fel, szélesség ugyanígy
+
+Hasznossága - oldalsó menünél, ami teljesen lemegy az oldalnak az aljáig azt is vh-val lehet megoldani
+*/
+
+/*Mértékegységek az elöző óráról*/
+
+/*
+Csináltunk 3span-t (1,2,3) class="display-block"
+Alapból a spanek egymás mellett helykednek el, mert nincsen semmiféle display tulajdonságuk(nincs alapértelmezett tulajdonsága -> neutrális elem)
+De ha viszont a display-block kap egy olyan tulajdonságok, hogy display: block; ->
+akkor beugranak egymás alá (úgy fognak viselkedni mint a div-ek) 
+mert a display: block; egy olyan tulajdonság, hogy egymás alatt jelennek meg az elemek, mivel felveszik a böngészőablaknak a szélességét
+igy lehet span-ből vagy input mezőből display-blockos valamit.
+*/
+.display-block {
+    display: block;
+}
+/*
+Inline
+Csináltunk 3 div-et class="inline". Divek alapból egymás alatt helyezkednek el.
+A display: inline; miatt beugranak egymás mellé és nem tudják felvenni a magasságot és a szélességet sem.
+display: block-nál fel tudják  
+inline - divből képes spant csinálni
+*/
+.inline {
+    display: inline;
+    width: 500px;
+    height: 500px;
+    border: 1px solid green;
+}
+.inline-block {
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    border: 1px solid indianred;
+    /*
+    Az inline-block hasonlít tulajdonságaiban az inline-ra
+    csak meg tudunk határozni szélességet és magasságot.
+    */
+}
+.static-square {
+    width: 250px;
+    height: 250px;
+    position: static; /*alapértelmezett beállítás*/
+    left: 200px; /*annyít tesz, hogy a tőle balra lévő megfelelő elemtől 200px-vel eltávolodik, body-tól jelen esetben - nem fog müködni*/
+    background-color: saddlebrown;
+}
+
+.relative-square {
+    width: 250px;
+    height: 250px;
+    position: relative;
+    top: 20px;
+    left: 125px;
+    background-color: purple;
+}
+/*
+A relative esetében müködnek a top, right, left, bottom tulajdonságok.
+Eljöttünk a body bal oldalától 125px-nyi távolságra.
+top: 20px; miatt lemegyünk a felette lévő elemtől 20px-t. 
+Olyasmi, mint a margin.
+*/
+.absolute-square {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    /*top: 20px;*/
+    left: 125px;
+    background-color: aquamarine;
+    z-index: 2;
+}
+/*
+Az absolute egy abszolút poziciót határoz meg a képernyőn.
+Vagy a body-hoz vagy a szülőelemhez képest határozza meg magát, de a szülőelemhez képest elég specifikusan és csak bizonyos esetekben.
+Az a különbség a relativ és az abszolút között, hogy az abszolút a szülőelemhez képest poziciónálja magát és 
+azért mondják abszolútnak, mert az egész teret figyelembe véve mondja azt, hogy ő 20px-vel a top alatt van, ha meg azt modnjuk, hogy 
+right: 125px; akkor meg a jobb szélétől lesz annyira.
+Ha azt akarjuk, hogy lejöjjön, akkor ki kell venni a top: 20px;
+Ha bírjuk, hogy mondjuk bottom: 15 px; -> akkor se fog teljesen lejönni ugye 5000px-es a min-height, mert a látható magasságot veszi ->
+szóval, ha teljesen feltekerünk, akkor ott lesz 15px-re a bottom-tól.
+
+Ha van két abszolútunk és az egyiknek megadjuk a left-50-et, a másiknak ugye volt left: 125px
+Úgy néz ki mintha egy hosszabb téglalap alakulna ki, pedig nem így van, hanem ezek be tudnak menni egymás felé és alá. -> hogy 
+lássuk adunk a másodiknak egy másik background-colort.
+
+Mivel abszolútok, ezért simán be tudnak menni egy másik elem alé-felé.
+A második left-50 square van felül, mert azt csináltuk késöbb, de ezt a z-index-vel meg tudjuk cserélni. 
+Fontos!!!!! hogy mindegyiknek meg kell adni a z-indexét.
+Z-index a z tengelyt jelenti amely felénk néz, tehát a mélység.
+*/
+.left-50 {
+    left: 50px;
+    background-color: cornflowerblue;
+    z-index: 1;
+}
+.absolute-square-center {
+   width: 125px; 
+   height: 125px;
+   background-color: black;
+   position: absolute;
+   left: 50px;
+   top: 60px;
+}
+/*
+absolute-square-center benne van a relative square-ben. 
+Látszik a szölőelemhez viszonyítja önmagát, nem megy ki, benne lesz a szülőelemben. 
+A left tulajdonságát, már nem a body-hoz mérten számolja ki, hanem a szülőelemhez képest.
+Így lehet teljesen középre helyezni az abszolút poziciójú elemeket 
+!!!!!!!!!!!!!!!!!!left:0; right:0; top:0; bottom:0; margin:auto;!!!!!!!!!!!!!!!!!!!!
+
+A relative és absolute között különbség az, hogy az absolute nem veszi figyelembe a többi elem helyzetét, hanem ő a 
+szülőelemhez képest fogja meghatározni önmagát, ha a szülőelem a body akkor ahhoz.
+Van egy kitétel: ha relative-sqaure egy static-square lenne akkor nem lehetne belerakni az abszolútot(nem tudja meghatározni önmagát
+a statikushoz képest, csak akkor ha relative-ban van vagy egy másik absolute-ban)
+*/
+.fixed-square {
+    position: fixed;
+    width: 125px;
+    height: 125px;
+    background-color: red;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+}
+/*
+A fixed mindig ugyanabban a pozicióban lesz a képernyőn, ha görgentünk lefele, jelen esetben a top: 50% és a left: 50% miatt 
+mindig a képernyő majdnem közepén lesz.
+Azért nem teljesen középen lesz, mert mindig a bal-felső sarokhoz viszonyít 
+*/
