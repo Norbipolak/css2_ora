@@ -171,3 +171,13 @@ A fixed mindig ugyanabban a pozicióban lesz a képernyőn, ha görgentünk lefe
 mindig a képernyő majdnem közepén lesz.
 Azért nem teljesen középen lesz, mert mindig a bal-felső sarokhoz viszonyít 
 */
+.sticky-square {
+   position: sticky; 
+   width: 125px;
+   height: 125px;
+   background-color: blueviolet;
+   top: 25px;
+}
+/*
+A sticky amikor eléri a 25px-es távolságot a böngészőablak tetejétől, akkor már fixed-ként le fog jönni ha legörgetünk.
+*/

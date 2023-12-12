@@ -1,0 +1,174 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    min-height: 5000px;
+}
+.float-left-square {
+    width: 200px;
+    height: 200px;
+    background-color: aquamarine;
+    margin: 15px;
+    float: left;
+    text-align: center;
+    line-height: 200px;
+}
+.clear-left {
+    clear: left;
+}
+/*
+Van 3 float-left-square, egymás alatt helyezkednek el, mert div-ek és a div-ek display: block-ok.
+Hogyan tudjuk őket egymás mellé helyezni, anélkül, hogy azt mondanánk hogy display: inline-block.
+Azt mondjuk neki hogy float: left; és ezek bekerülnek egymás mellé.
+Az a gond vele így hogyha ezek a float-left-square után csinálunk valamilyen tag-et, akkor az nem alatta
+hanem a square-ek mellett fog megjelenni.
+
+Úgy müködik ha azt mondom, hogy float-left az első square-nek, akkor nem önmagát rakja be balra, hanem azt modnja, 
+hogy a tőle következő elem az tőle jobbra legyen és így rendeződnek bal oldalra ezek az elemek !!!!!!!!!!!
+és ezért lesz a <h1>Float right</h1> taggünk is tőle majd jobbra.
+
+Ha szeretnénk ezt befejezni -> akkor hozzáírjuk az utolsó div-hez ilyen formában, hogy clear-left ->
+<div class="float-left-square clear-left">3</div>
+
+És, ha valamelyik megkapja azt a tulajdonságot, hogy clear-left ->
+.clear-left {
+    clear: left;
+}
+Akkor önmagát ledobja a többi mellöl -> átkerül egy új sorba
+és ha rakunk még egy float-left-es div-et a clear left-es után, akkor tudom folytatni a sort.
+<div class="float-left-square">1</div>
+    <div class="float-left-square">2</div>
+    <div class="float-left-square">3</div>
+
+    <div class="float-left-square clear-left">4</div>
+    <div class="float-left-square">5</div>
+    <div class="float-left-square">6</div>
+
+    így lett két sorunk 
+    -az első sorban vannak az 1,2,3
+    -a második sorban vannak a 4,5,6 egymás mellett 
+
+A clear-left az annyit tesz, hogy a float-left-et ledobja az adott sorból egy sorral lejjebb és a többit meg lehet folytatni
+és mondjuk így létre tudunk hozni egy sakktáblát. 
+
+clear:left a float:left tulajdonságot törli.
+*/
+.clear {
+    clear: both;
+}
+/*
+Hogyan tudjuk megoldani, hogy a float right h1-es taggünk lekerüljön, mert az most az első sor végén van még mindig,
+hiába van a html-ben pár sorral lejjebb, mint a clear-left-es class="float-left-square-es div-ünk 
+
+Létre kell hozni egy újabb div-et class="clear"-vel és ha a clear-nek megadjuk azt a tulajsonságot, hogy clear:both;
+akkor ez majd a float:left-et és a float:right-ot is ki fogja nekünk törölni és a a h1-es taggünk, amiben az van írva, hogy 
+Float right az le fog menni a 6 db float-left-es kockánk alá.
+
+A clear egy határvonalat képez a tartalom első és masodik fele között és kiköszöbüli a float:left; tulajdonságot
+*/
+
+.float-right-square {
+    width: 200px;
+    height: 200px;
+    background-color: palegoldenrod;
+    margin: 15px;
+    float: right;
+    text-align: center;
+    line-height: 200px;
+}
+
+/*
+Csináltunk 4 float-right-square-t. Jobbra fogja helyezni az elemeket. A body jobb oldali szélétől lesz egymás mellett
+a 4 kockánk, úgy, hogy a legjobboldali az egyes és utána növekedve a bal oldal fele.
+A float right a tükörképe a float left-nek (sorrend a fordítotja).
+
+Ha szeretnénk, hogy a 3-as számú ledobja magát, akkor azt modnjuk neki, hogy clear-right ->
+ <div class="float-right-square">1</div>
+    <div class="float-right-square">2</div>
+    <div class="float-right-square clear right">3</div>
+    <div class="float-right-square">4</div>
+
+    És akkor a clear-right tulajdonsággal megszüntetjük a float: right; tulajdonságot 
+    lesz 2 sorunk:
+    -az első sorban vannak a 2,1
+    -a második sorban vannak a 4,3
+*/
+.clear-right {
+    clear: right;
+}
+
+/*
+Ha szeretnénk tovább írni a dokumentumban, akkor csinálunk újra egy clear div-et és akkor nem lesz az a probléma, 
+hogy a következő elemet berakja saját maga mellé balra ->
+<div class="clear"></div>
+*******************************************************************************************************************************************
+*/
+
+/*
+Túlcsordulás kezelése(szövegeknél)
+Csináltunk egy div-et class="text-box" ebben generálunk egy Lorem-et és a kockán kívül megy a szöveg alúl, túlcsordul
+Ennek az egyik féle kezlése a az overflow-y: (mivel az y tengelyen csordul túl a szöveg) hidden
+*/
+.text-box {
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    /*overflow-y: hidden;*/
+    /*overflow-y: scroll;*/
+    overflow-y: auto;
+}
+/*
+A hiddennel az történik, hogy altünteti azt a részt, ami nem fér bele.
+Létezik egy jobb megoldás is az overflow-y: scroll; ->
+Megjelenik egy görgető sáv és ezzel le tudunk menni a szöveg aljáig (el lehet olvasni a content-et ha legörgetünk).
+*/
+
+/*
+Ha van két ugyanolyan text-boxunk egymás alatt és az egyikben annyi szöveg van, hogy kifér a másikban pedig nem ->
+lásd példa html: az elsőben nem fér ki, a másodikban viszont igen.
+Az overflow: scroll-val mindenképp megjelenik a görgetősáv, még ha ki is fér a text, ami benne van.
+
+Erre jó az overflow-y: auto; -> itt az elsőnél, ahol nem fér ki, lesz görgetősáv,
+a másodiknál, ahol kifér ott meg nem.
+
+4-féle beállítása van: 
+1. visible (alapbeállítás, amikor túlcsordul)
+2. hidden (ami elrejti)
+3. scroll (ami ha kell, ha nem csinál görgetősávot)
+4. auto (csak akkor rakja oda a görgetősávot, ha szükség van rá)
+**********************************************************************************************************************************
+*/
+
+/*
+X-tengelyen való túlcsordulás 
+Csináltunk egy class="text-box-x" div-et, amiben csináltunk még egy div-et, amibe raktunk valami szöveget és adunk neki 
+egy style attributumot style="width: 400px"
+<div class="text-box-x">
+        <div style="width: 400px">
+
+X-tengelyen csordul túl, mert beállítottunk egy style="width: 400px;-t és a text-box-x-nek a width-je csak 300px.
+Ugyanaz az alapbeállítás, hogy overflow: visible
+*/
+.text-box-x {
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    overflow-x: hidden;
+}
+/*
+Az x-tengelynél is ugyanazok a beállítások vannak, mint az y-nál (visible, hidden, scroll, auto)
+
+Ha nem tudjuk melyik tengelyen csordul túl, akkor -> x és y tengely html-ben, készitünk egy hasonló szöveget, 
+ahol az y és az x tengelyen is túlcsordul a szöveg.
+*/
+.text-box-x-y {
+    width: 300px;
+    height: 300px;
+    border: 1px solid black;
+    overflow: auto;
+}
+/*
+A sima overflow az x és az y tengelyen együtt kezeli és ha overflow: auto; ->
+akkor ha kell lesz görgetönk ha nem akkor nem.
+A sima overflow-naál is ugyanazok a tulajdonságok vannak, hogy visible. hidden, scroll, auto 
+*/
